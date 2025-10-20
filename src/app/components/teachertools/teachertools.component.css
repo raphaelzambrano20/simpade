@@ -1,0 +1,144 @@
+.tools-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 30px;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-hub {
+    text-align: center;
+}
+
+h2 {
+    color: #2c3e50;
+    font-size: 2.2em;
+    margin-bottom: 5px;
+}
+
+.description {
+    color: #7f8c8d;
+    margin-bottom: 40px;
+}
+
+/* --- GRID PRINCIPAL DE TARJETAS --- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+    height: 100%;
+    text-align: center;
+    border-bottom: 5px solid transparent;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-bottom: 5px solid #3498db; /* Acento visual al pasar el ratón */
+}
+
+.dashboard-card h3 {
+    color: #34495e;
+    font-size: 1.5em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.dashboard-card p {
+    color: #555;
+    font-size: 0.9em;
+}
+
+/* Íconos */
+.icon-large {
+    font-size: 3em;
+    color: #3498db; /* Color principal */
+    margin-bottom: 10px;
+}
+.accent-alert {
+    color: #e74c3c; /* Rojo para alerta */
+}
+.accent-register {
+    color: #2ecc71; /* Verde para registro */
+}
+.clickable-card:hover .dashboard-card {
+    cursor: pointer;
+    border-bottom-color: #f39c12; /* Naranja para acciones */
+}
+
+/* --- VISTAS DE ACCIÓN (PANELES) --- */
+.action-panel {
+    padding: 20px;
+}
+
+.tools-grid-alerts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.tool-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn-back {
+    background: #bdc3c7;
+    color: #34495e;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-decoration: none;
+}
+.btn-back:hover {
+    background: #95a5a6;
+}
+
+/* Estilos de Formulario y Logs (Reutilizados del paso anterior) */
+.form-group { margin-bottom: 15px; }
+.form-control { width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 4px; box-sizing: border-box; }
+.btn-danger { background-color: #e74c3c; color: white; padding: 10px 15px; width: 100%; }
+.btn-primary { background-color: #3498db; color: white; padding: 10px 15px; width: 100%; }
+.report-success { margin-top: 15px; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 4px; text-align: center; }
+
+/* Log List Styling */
+.log-card {
+    grid-column: span 1; /* Asegura que no se desborde el log */
+}
+.alert-logs-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+.log-entry {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.9em;
+}
+.log-time { font-weight: bold; color: #7f8c8d; min-width: 60px; }
+.log-student { font-weight: 600; color: #2c3e50; margin: 0 10px; }
+.log-message { color: #e74c3c; }
+
+.large-report-widget {
+    grid-column: span 2;
+    text-align: center;
+}

@@ -1,0 +1,128 @@
+<div class="main-container" *ngIf="student$ | async as student; else loadingOrError">
+
+    <div *ngIf="errorMessage" class="alert error-alert">{{ errorMessage }}</div>
+
+    <!-- HEADER Y BOTONES DE ACCIÓN -->
+    <div class="detail-header">
+        <h1>{{ student.name }}</h1>
+        <div class="actions">
+            <button *ngIf="!isEditing" (click)="toggleEditMode()" class="btn btn-secondary">
+                Editar Perfil
+            </button>
+            <button *ngIf="isEditing" (click)="submitEdit()" [disabled]="editForm.invalid || loading" class="btn btn-accent">
+                Guardar Cambios
+            </button>
+            <button *ngIf="isEditing" (click)="toggleEditMode()" class="btn">
+                Cancelar
+            </button>
+            <button (click)="confirmDelete(student.id)" class="btn btn-danger">
+                Eliminar
+            </button>
+            <a routerLink="/monitoring" class="btn btn-primary">
+                Volver a la Lista
+            </a>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN DE PESTAÑAS (TABS) -->
+    <div class="tab-navigation">
+        <button class="tab-button" [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">
+            Perfil del Estudiante
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'attendance'" (click)="setActiveTab('attendance')">
+            Asistencia
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'grades'" (click)="setActiveTab('grades')">
+            Calificaciones
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'observations'" (click)="setActiveTab('observations')">
+            Observaciones
+        </button>
+    </div>
+
+    <!-- CONTENIDO DE LAS PESTAÑAS -->
+    <div class="tab-content">
+        <!-- PESTAÑA: PERFIL DEL ESTUDIANTE -->
+        <div *ngIf="activeTab === 'profile'">
+            <!-- MODO DE VISUALIZACIÓN -->
+            <div *ngIf="!isEditing" class="profile-view">
+                <div class="profile-section">
+                    <h3>Datos Académicos</h3>
+                    <p><strong>No. Identificación:</strong> <span>{{ student.studentId }}</span></p>
+                    <p><strong>Grado Escolar:</strong> <span>{{ student.grade }}</span></p>
+                    <p><strong>Promedio Académico:</strong> <span>{{ student.academicAverage | number:'1.1-2' }}</span></p>
+                </div>
+                <div class="profile-section">
+                    <h3>Riesgo y Contexto</h3>
+                    <p><strong>Factor de Riesgo:</strong> <span>{{ student.riskFactor }}</span></p>
+                    <p><strong>Ausencias (Último Mes):</strong> <span>{{ student.absencesLastMonth }} días</span></p>
+                    <p><strong>Estado Económico:</strong> <span>{{ student.economicStatus }}</span></p>
+                </div>
+            </div>
+            <!-- MODO DE EDICIÓN -->
+            <div *ngIf="isEditing" class="profile-edit-form card">
+                <form [formGroup]="editForm" (ngSubmit)="submitEdit()">
+                    <div class="form-grid">
+                        <div class="form-group"><label>Nombre Completo</label><input type="text" formControlName="name" class="form-control"></div>
+                        <div class="form-group"><label>No. Identificación</label><input type="text" formControlName="studentId" class="form-control"></div>
+                        <div class="form-group"><label>Grado</label><input type="number" formControlName="grade" class="form-control"></div>
+                        <div class="form-group"><label>Promedio Académico</label><input type="number" formControlName="academicAverage" class="form-control" step="0.1"></div>
+                        <div class="form-group"><label>Ausencias (Último Mes)</label><input type="number" formControlName="absencesLastMonth" class="form-control"></div>
+                        <div class="form-group"><label>Estado Económico</label><select formControlName="economicStatus" class="form-control"><option value="Vulnerable">Vulnerable</option><option value="Estable">Estable</option></select></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- PESTAÑA: ASISTENCIA -->
+        <div *ngIf="activeTab === 'attendance'" class="card">
+            <h3>Registrar Nueva Asistencia</h3>
+            <form [formGroup]="attendanceForm" (ngSubmit)="addAttendance()" class="form-grid">
+                <div class="form-group"><label>Fecha</label><input type="date" formControlName="date" class="form-control"></div>
+                <div class="form-group"><label>Estado</label><select formControlName="status" class="form-control"><option value="presente">Presente</option><option value="ausente">Ausente</option><option value="justificado">Justificado</option></select></div>
+                <div class="button-container-footer form-full-width"><button type="submit" class="btn btn-accent">Registrar Asistencia</button></div>
+            </form>
+        </div>
+
+        <!-- PESTAÑA: CALIFICACIONES -->
+        <div *ngIf="activeTab === 'grades'" class="card">
+            <h3>Registrar Nueva Calificación</h3>
+            <form [formGroup]="gradeForm" (ngSubmit)="addGrade()" class="form-grid">
+                <div class="form-group"><label>Materia</label><select formControlName="subjectId" class="form-control"><option value="matematicas">Matemáticas</option><option value="ciencias">Ciencias</option><option value="sociales">Sociales</option><option value="lenguaje">Lenguaje</option></select></div>
+                <div class="form-group"><label>Nota (0.0 - 5.0)</label><input type="number" step="0.1" formControlName="gradeValue" class="form-control"></div>
+                <div class="form-group"><label>Periodo</label><input type="number" formControlName="period" class="form-control"></div>
+                <div class="button-container-footer form-full-width"><button type="submit" class="btn btn-accent">Registrar Calificación</button></div>
+            </form>
+        </div>
+
+        <!-- PESTAÑA: OBSERVACIONES -->
+        <div *ngIf="activeTab === 'observations'" class="card">
+            <h3>Registrar Nueva Observación</h3>
+            <form [formGroup]="observationForm" (ngSubmit)="addObservation()" class="form-grid">
+                <div class="form-group"><label>Categoría</label><select formControlName="category" class="form-control"><option value="academica">Académica</option><option value="comportamiento">Comportamiento</option><option value="familiar">Familiar</option></select></div>
+                <div class="form-group form-full-width"><label>Observación</label><textarea formControlName="text" class="form-control"></textarea></div>
+                <div class="button-container-footer form-full-width"><button type="submit" class="btn btn-accent">Guardar Observación</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
+    <div *ngIf="showConfirmModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirmar Eliminación</h3>
+            <p>¿Estás seguro de que deseas eliminar permanentemente a <strong>{{ student.name }}</strong>? Esta acción no se puede deshacer.</p>
+            <div class="modal-actions">
+                <button (click)="showConfirmModal = false" class="btn">Cancelar</button>
+                <button (click)="deleteStudentConfirmed()" class="btn btn-danger">Eliminar Definitivamente</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loadingOrError>
+    <div class="main-container">
+        <p *ngIf="loading">Cargando perfil del estudiante...</p>
+        <div *ngIf="errorMessage && !loading" class="alert error-alert">{{ errorMessage }}</div>
+    </div>
+</ng-template>
+

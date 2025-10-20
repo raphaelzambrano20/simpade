@@ -1,0 +1,179 @@
+.dashboard-container {
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+/* --- Métrica Principal --- */
+.main-metric {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.metric-label {
+    font-size: 1.2em;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+.metric-value {
+    font-size: 4em;
+    font-weight: 700;
+    color: #2980b9;
+    margin: 5px 0 0;
+}
+
+h3 {
+    text-align: center;
+    color: #34495e;
+    margin-bottom: 25px;
+}
+
+/* --- SECCIÓN DE GRÁFICO Y TARJETAS --- */
+.summary-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- GRÁFICO DE PASTEL (PIE CHART) --- */
+.pie-chart-container {
+    flex: 0 0 300px; /* Tamaño fijo */
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 50%; /* Contenedor visual */
+}
+
+.pie-chart {
+    /* CLAVE: Creación del círculo y uso del estilo generado por TS */
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    /* La propiedad background se setea dinámicamente con [style.background] */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-style: italic;
+    font-size: 1.1em;
+}
+
+/* --- Grid de Tarjetas de Riesgo (Leyenda) --- */
+.risk-cards-grid {
+    flex: 1;
+    min-width: 300px;
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna para listar las leyendas */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card {
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: none; /* Quitamos la sombra para que sean más como una leyenda */
+    border: 1px solid #ddd;
+    text-align: left;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.card-count {
+    font-size: 2em;
+    font-weight: 800;
+    margin: 0;
+}
+
+.card-info {
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Colores por Riesgo (Consistentes con el gráfico) */
+.risk-alto {
+    background-color: #fcebeb;
+    border-left: 5px solid #e74c3c;
+    color: #e74c3c;
+}
+.risk-medio {
+    background-color: #fef9e7;
+    border-left: 5px solid #f39c12;
+    color: #f39c12;
+}
+.risk-bajo {
+    background-color: #ebf9eb;
+    border-left: 5px solid #2ecc71;
+    color: #2ecc71;
+}
+
+/* Botones */
+.actions-section {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-tertiary {
+    background-color: #2ecc71; /* Verde para el registro */
+    color: white;
+}
+.btn-tertiary:hover {
+    background-color: #27ae60;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}

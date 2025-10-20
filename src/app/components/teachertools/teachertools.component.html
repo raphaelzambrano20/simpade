@@ -1,0 +1,92 @@
+<div class="tools-container">
+
+    <div *ngIf="showActionPanel === 'hub'" class="dashboard-hub">
+
+        <h2>Bienvenido, Profesor</h2>
+        <p class="description">Selecciona una opción para administrar la permanencia estudiantil.</p>
+
+        <div class="cards-grid">
+
+            <a routerLink="/monitoring" class="card-link">
+                <div class="dashboard-card">
+                    <i class="fas fa-users icon-large"></i>
+                    <h3>Estudiantes</h3>
+                    <p>Listado completo de estudiantes a cargo y sus perfiles de riesgo.</p>
+                </div>
+            </a>
+
+            <div (click)="showPanel('alerts')" class="card-link clickable-card">
+                <div class="dashboard-card">
+                    <i class="fas fa-bell icon-large accent-alert"></i>
+                    <h3>Alertas</h3>
+                    <p>Notificaciones y envío directo de alertas a estudiantes de alto riesgo.</p>
+                </div>
+            </div>
+
+            <div (click)="showPanel('reports')" class="card-link clickable-card">
+                <div class="dashboard-card">
+                    <i class="fas fa-chart-bar icon-large"></i>
+                    <h3>Reportes</h3>
+                    <p>Generación de informes consolidados de seguimiento y deserción escolar.</p>
+                </div>
+            </div>
+
+            <a routerLink="/register" class="card-link">
+                <div class="dashboard-card">
+                    <i class="fas fa-user-plus icon-large accent-register"></i>
+                    <h3>Registro</h3>
+                    <p>Acceso rápido para inscribir nuevos estudiantes al sistema SIMPADE.</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <div *ngIf="showActionPanel === 'alerts'" class="action-panel">
+        <button (click)="showPanel('hub')" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al Dashboard</button>
+        <h2>Envío y Historial de Alertas</h2>
+
+        <div class="tools-grid-alerts">
+            <div class="tool-card send-alert-card" *ngIf="highRiskStudents$ | async as highRiskStudents">
+                <h3>Mandar Alerta de Intervención</h3>
+                <p *ngIf="highRiskStudents.length === 0" class="no-risk-msg">No hay estudiantes de Alto Riesgo que requieran alerta inmediata.</p>
+
+                <form (ngSubmit)="sendAlert(highRiskStudents)" *ngIf="highRiskStudents.length > 0">
+                    <div class="form-group"><label for="studentSelect">Estudiante:</label><select id="studentSelect" [(ngModel)]="selectedStudentId" name="selectedStudent" class="form-control" required><option *ngFor="let student of highRiskStudents" [value]="student.id">{{ student.name }} (Riesgo Alto)</option></select></div>
+                    <div class="form-group"><label for="alertMessageInput">Mensaje:</label><textarea id="alertMessageInput" [(ngModel)]="alertMessage" name="alertMessage" class="form-control" rows="2"></textarea></div>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-bell"></i> Simular Envío de Alerta</button>
+                </form>
+            </div>
+
+            <div class="tool-card log-card">
+                <h3>Registro Histórico de Alertas</h3>
+                <div class="alert-logs-list">
+                    <div *ngFor="let log of alertLogs" class="log-entry">
+                        <span class="log-time">{{ log.date | date:'shortTime' }}</span>
+                        <span class="log-student">Alerta a {{ log.studentName }}:</span>
+                        <span class="log-message">{{ log.message }}</span>
+                    </div>
+                    <p *ngIf="alertLogs.length === 0" class="no-logs">Aún no hay alertas enviadas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showActionPanel === 'reports'" class="action-panel">
+        <button (click)="showPanel('hub')" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al Dashboard</button>
+        <h2>Generación de Reportes</h2>
+
+        <div class="tool-card report-card large-report-widget">
+            <h3>Informe de Deserción y Permanencia</h3>
+            <p>Genera el informe oficial consolidado de la población estudiantil bajo monitoreo.</p>
+
+            <button (click)="generateReport()" class="btn btn-primary" [disabled]="reportGenerated">
+                <i class="fas fa-file-pdf"></i> {{ reportGenerated ? 'Reporte Generado' : 'Generar Reporte Consolidado' }}
+            </button>
+
+            <div *ngIf="reportGenerated" class="report-success">
+                <i class="fas fa-check-circle"></i> Informe listo. Revise su historial de descargas.
+            </div>
+        </div>
+    </div>
+</div>

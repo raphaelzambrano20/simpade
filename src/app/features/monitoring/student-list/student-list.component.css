@@ -1,0 +1,98 @@
+/* --- Contenedor Principal de Monitoreo --- */
+.monitoring-container {
+    padding: 30px;
+    font-family: var(--font-family);
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+h2 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+/* --- Barra de Controles y Filtros --- */
+.controls-bar {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-select {
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+/* --- Tabla de Estudiantes --- */
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Para que el border-radius afecte a la tabla */
+}
+
+.student-table th, .student-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.student-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.student-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.student-table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* --- Badge de Riesgo --- */
+.risk-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+}
+
+.risk-high .risk-badge { background-color: var(--danger-color); }
+.risk-medium .risk-badge { background-color: var(--warning-color); }
+.risk-low .risk-badge { background-color: var(--accent-color); }
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary-color);
+}
+
+.btn-detail {
+    background: none;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-detail:hover {
+    background-color: var(--primary-color);
+    color: white;
+}

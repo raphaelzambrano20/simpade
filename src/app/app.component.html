@@ -1,0 +1,51 @@
+<div class="app-wrapper">
+    <!-- Pantalla de carga mientras se verifica la autenticación -->
+    <div *ngIf="!(isAuthReady$ | async)" class="loading-spinner">
+        Cargando autenticación...
+    </div>
+
+    <!-- Contenido principal de la aplicación -->
+    <div *ngIf="isAuthReady$ | async">
+        <header class="app-header" *ngIf="currentUserProfile$ | async as profile">
+            <h1>SIMPADE</h1>
+            <nav>
+                <!-- Opciones para DOCENTE -->
+                <ng-container *ngIf="profile.role === 'docente'">
+                    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+                    <a routerLink="/monitoring" routerLinkActive="active">Mis Estudiantes</a>
+                    <a routerLink="/register-student" routerLinkActive="active">Registrar Estudiante</a>
+                    <a routerLink="/analysis" routerLinkActive="active">Simulador</a>
+                </ng-container>
+
+                <!-- Opciones para ESTUDIANTE -->
+                <ng-container *ngIf="profile.role === 'estudiante'">
+                    <a routerLink="/student-dashboard" routerLinkActive="active">Mi Estado</a>
+                </ng-container>
+
+                <!-- Opciones para LÍDER -->
+                <ng-container *ngIf="profile.role === 'lider'">
+                    <a routerLink="/dashboard" routerLinkActive="active">Dashboard General</a>
+                    <a routerLink="/monitoring" routerLinkActive="active">Todos los Estudiantes</a>
+                </ng-container>
+
+                <div class="user-info">
+                    <span>{{ profile.name || profile.email }} ({{ profile.role }})</span>
+                    <button (click)="logout()" class="btn-logout">Cerrar Sesión</button>
+                </div>
+            </nav>
+        </header>
+
+         <!-- Menú de Login si no hay usuario -->
+        <header class="app-header" *ngIf="!(currentUserProfile$ | async)">
+             <h1>SIMPADE</h1>
+             <nav>
+                <a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
+                <a routerLink="/register-user" routerLinkActive="active">Registrarse</a>
+             </nav>
+        </header>
+
+        <main class="app-content">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

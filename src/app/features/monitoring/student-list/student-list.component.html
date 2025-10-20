@@ -1,0 +1,87 @@
+<div class="monitoring-container">
+    <h2>Monitoreo de Estudiantes Asignados (Grado {{ teacherGrade }})</h2>
+
+    <div class="context-info-bar">
+        ⚠️ Esta lista muestra solo los estudiantes de **Grado {{ teacherGrade }}** que usted ha registrado.
+    </div>
+
+    <div class="controls-bar">
+        <label for="riskFilter">Filtrar por Riesgo:</label>
+        <select
+            id="riskFilter"
+            [(ngModel)]="selectedRisk"
+            (ngModelChange)="applyFilter()"
+            class="form-select"
+        >
+            <option *ngFor="let option of riskOptions" [value]="option">{{ option }}</option>
+        </select>
+    </div>
+
+    <table class="student-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Grado</th>
+                <th>Promedio Académico (Riesgo GPA)</th>
+                <th>Ausencias (Riesgo Abs.)</th>
+                <th>Estado Económico</th>
+                <th>Factor de Riesgo</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student of filteredStudents"
+                [ngClass]="{
+                    'risk-high': student.riskFactor === 'Alto',
+                    'risk-medium': student.riskFactor === 'Medio',
+                    'risk-low': student.riskFactor === 'Bajo'
+                }">
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.grade }}</td>
+
+                <td>
+                    {{ student.academicAverage | number:'1.1-2' }}
+                    <div class="progress-bar-container">
+                        <div
+                            class="progress-bar risk-bar"
+                            [style.width.%]="getGpaRiskScore(student.academicAverage)"
+                            [ngClass]="{
+                                'bar-high': getGpaRiskScore(student.academicAverage) > 70,
+                                'bar-medium': getGpaRiskScore(student.academicAverage) > 30 && getGpaRiskScore(student.academicAverage) <= 70,
+                                'bar-low': getGpaRiskScore(student.academicAverage) <= 30
+                            }"
+                        ></div>
+                    </div>
+                </td>
+
+                <td>
+                    {{ student.absencesLastMonth }}
+                    <div class="progress-bar-container">
+                        <div
+                            class="progress-bar risk-bar"
+                            [style.width.%]="getAbsencesRiskScore(student.absencesLastMonth)"
+                            [ngClass]="{
+                                'bar-high': getAbsencesRiskScore(student.absencesLastMonth) > 70,
+                                'bar-medium': getAbsencesRiskScore(student.absencesLastMonth) > 30 && getAbsencesRiskScore(student.absencesLastMonth) <= 70,
+                                'bar-low': getAbsencesRiskScore(student.absencesLastMonth) <= 30
+                            }"
+                        ></div>
+                    </div>
+                </td>
+
+                <td>{{ student.economicStatus }}</td>
+                <td>
+                    <span class="risk-badge">{{ student.riskFactor }}</span>
+                </td>
+                <td>
+                    <button (click)="goToDetail(student.id)" class="btn-detail">Ver Perfil</button>
+                </td>
+            </tr>
+            <tr *ngIf="filteredStudents.length === 0">
+                <td colspan="8" class="no-data">No hay estudiantes que coincidan con el filtro seleccionado.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

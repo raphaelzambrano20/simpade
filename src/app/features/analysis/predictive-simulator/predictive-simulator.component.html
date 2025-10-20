@@ -1,0 +1,62 @@
+<div class="simulator-container card">
+  <div class="simulator-header">
+    <h2>Simulador de Impacto de Intervención</h2>
+    <p>Define los recursos para cada estrategia y predice la reducción en la tasa de deserción.</p>
+  </div>
+
+  <!-- Muestra la tasa de deserción actual como punto de referencia -->
+  <div class="current-rate-display" *ngIf="currentDesertionRate$ | async as rate">
+    Tasa de Deserción Actual: <strong>{{ rate | number:'1.1-2' }}%</strong>
+  </div>
+
+  <!-- Formulario con Sliders para cada intervención -->
+  <form [formGroup]="simulatorForm" (ngSubmit)="runSimulation()">
+    
+    <div class="form-group slider-group">
+      <label for="studentsForTutoring">Tutorías a Estudiantes de Riesgo: <strong>{{ simulatorForm.get('studentsForTutoring')?.value }} Estudiantes</strong></label>
+      <input id="studentsForTutoring" type="range" formControlName="studentsForTutoring" min="0" max="100" step="1" class="slider-control">
+    </div>
+
+    <div class="form-group slider-group">
+      <label for="parentWorkshops">Talleres para Padres: <strong>{{ simulatorForm.get('parentWorkshops')?.value }} Talleres</strong></label>
+      <input id="parentWorkshops" type="range" formControlName="parentWorkshops" min="0" max="50" step="1" class="slider-control">
+    </div>
+
+    <div class="form-group slider-group">
+        <label for="psychologyHours">Horas de Apoyo Psicológico: <strong>{{ simulatorForm.get('psychologyHours')?.value }} Horas</strong></label>
+        <input id="psychologyHours" type="range" formControlName="psychologyHours" min="0" max="200" step="5" class="slider-control">
+    </div>
+
+    <div class="button-container-footer">
+      <button type="submit" [disabled]="simulatorForm.invalid || loading" class="btn btn-primary">
+        {{ loading ? 'Calculando...' : 'Ejecutar Simulación' }}
+      </button>
+    </div>
+  </form>
+
+  <!-- Panel de Resultados Mejorado -->
+  <div *ngIf="simulationResult" class="results-panel card">
+    <h3>Resultados de la Simulación</h3>
+    <div class="results-grid">
+      <div class="result-item">
+        <span class="label">Tasa Inicial</span>
+        <span class="value initial">{{ simulationResult.initialRate | number:'1.1-2' }}%</span>
+      </div>
+      <div class="result-item arrow">
+        <span>➡️</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Tasa Simulada</span>
+        <span class="value simulated">{{ simulationResult.simulatedRate | number:'1.1-2' }}%</span>
+      </div>
+      <div class="result-item reduction">
+        <span class="label">Reducción</span>
+        <span class="value success">{{ simulationResult.reduction | number:'1.1-2' }} pts</span>
+      </div>
+    </div>
+    <p class="summary-message">
+      Con los recursos asignados, se proyecta una reducción de <strong>{{ simulationResult.reduction }}</strong> puntos porcentuales en la tasa de deserción.
+    </p>
+  </div>
+</div>
+

@@ -1,0 +1,61 @@
+<div class="dashboard-container" *ngIf="dashboardData$ | async as data">
+    <h2>Tablero de Control - Resumen Ejecutivo</h2>
+
+    <!-- Sección 1: Tasa de Deserción Actual (Métrica Clave) -->
+    <div class="main-metric">
+        <p class="metric-label">Tasa de Deserción Estimada del Sistema</p>
+        <p class="metric-value">{{ data.rate | number:'1.1-2' }}%</p>
+    </div>
+
+    <hr>
+
+    <h3>Distribución del Factor de Riesgo (Total: {{ data.total }})</h3>
+
+    <div class="summary-section">
+
+        <!-- Contenedor del Gráfico de Pastel -->
+        <div class="pie-chart-container">
+            <div
+                class="pie-chart"
+                [style.background]="getPieChartStyles(data.chartPercentages)"
+            >
+                <span *ngIf="data.total === 0">Sin datos</span>
+            </div>
+        </div>
+
+        <!-- Sección 2: Tarjetas de Resumen de Riesgo (Leyenda y Conteo) -->
+        <div class="risk-cards-grid">
+
+            <!-- Tarjeta 1: Riesgo Alto -->
+            <div class="card risk-alto">
+                <p class="card-title">Riesgo Alto ({{ data.chartPercentages.alto }}%)</p>
+                <p class="card-count">{{ data.summary.alto }}</p>
+                <p class="card-info">Estudiantes que requieren intervención inmediata.</p>
+            </div>
+
+            <!-- Tarjeta 2: Riesgo Medio -->
+            <div class="card risk-medio">
+                <p class="card-title">Riesgo Medio ({{ data.chartPercentages.medio }}%)</p>
+                <p class="card-count">{{ data.summary.medio }}</p>
+                <p class="card-info">Estudiantes a monitorear y dar seguimiento.</p>
+            </div>
+
+            <!-- Tarjeta 3: Riesgo Bajo -->
+            <div class="card risk-bajo">
+                <p class="card-title">Riesgo Bajo ({{ data.chartPercentages.bajo }}%)</p>
+                <p class="card-count">{{ data.summary.bajo }}</p>
+                <p class="card-info">Estudiantes estables con buen rendimiento.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="actions-section">
+        <a routerLink="/monitoring" class="btn btn-primary">Ver Lista de Estudiantes</a>
+        <a routerLink="/register" class="btn btn-tertiary">Registrar Estudiante</a>
+        <a routerLink="/analysis" class="btn btn-secondary">Ir al Simulador Predictivo</a>
+    </div>
+
+</div>
+
+<div *ngIf="!(dashboardData$ | async)" class="loading">Cargando datos del sistema...</div>

@@ -1,0 +1,57 @@
+<div class="register-container">
+    <h2>Registro de Estudiante</h2>
+    <p>Ingrese los datos para calcular el Factor de Riesgo inicial.</p>
+
+    <div *ngIf="successMessage" class="alert success-alert">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert error-alert">{{ errorMessage }}</div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+
+        <div class="form-group">
+            <label for="name">Nombre Completo</label>
+            <input id="name" type="text" formControlName="name" class="form-control">
+            <div *ngIf="f['name'].invalid && f['name'].touched" class="invalid-feedback">El nombre es obligatorio (mín. 3 caracteres).</div>
+        </div>
+
+        <!-- CAMPO AÑADIDO: Número de Identificación -->
+        <div class="form-group">
+            <label for="studentId">Número de Identificación</label>
+            <input id="studentId" type="text" formControlName="studentId" class="form-control">
+            <div *ngIf="f['studentId'].invalid && f['studentId'].touched" class="invalid-feedback">El número de identificación es obligatorio y solo debe contener números.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="grade">Grado Escolar</label>
+            <input id="grade" type="number" formControlName="grade" class="form-control" min="1" max="12">
+            <div *ngIf="f['grade'].invalid && f['grade'].touched" class="invalid-feedback">Grado inválido (1-12).</div>
+        </div>
+
+        <div class="form-group">
+            <label for="academicAverage">Promedio Académico (0.0 a 5.0)</label>
+            <input id="academicAverage" type="number" formControlName="academicAverage" class="form-control" step="0.1" min="0" max="5">
+            <div *ngIf="f['academicAverage'].invalid && f['academicAverage'].touched" class="invalid-feedback">Promedio requerido (0.0 - 5.0).</div>
+        </div>
+
+        <div class="form-group">
+            <label for="absencesLastMonth">Ausencias (Último Mes)</label>
+            <input id="absencesLastMonth" type="number" formControlName="absencesLastMonth" class="form-control" min="0">
+            <div *ngIf="f['absencesLastMonth'].invalid && f['absencesLastMonth'].touched" class="invalid-feedback">Número de ausencias requerido (no negativo).</div>
+        </div>
+
+        <div class="form-group">
+            <label for="economicStatus">Estado Económico</label>
+            <select id="economicStatus" formControlName="economicStatus" class="form-control">
+                <option *ngFor="let status of economicStatusOptions" [value]="status">{{ status }}</option>
+            </select>
+        </div>
+
+        <button type="submit" [disabled]="registerForm.invalid || loading" class="btn-submit">
+            <span *ngIf="loading">Guardando...</span>
+            <span *ngIf="!loading">Registrar Estudiante</span>
+        </button>
+
+        <p class="mt-3">
+            <a routerLink="/dashboard" class="link-back">Volver al Dashboard</a>
+        </p>
+    </form>
+</div>
