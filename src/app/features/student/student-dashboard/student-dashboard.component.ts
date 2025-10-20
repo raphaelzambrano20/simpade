@@ -1,70 +1,87 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../../../core/services/data.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService, UserProfile } from '../../../core/services/auth.service';
+import { Observable, of } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { Student } from '../../../core/models/simpade.model';
+
+// Interfaz para combinar la información del perfil y del estudiante
+interface StudentData {
+  profile: UserProfile;
+  details: Student | null;
+}
 
 @Component({
   selector: 'app-student-dashboard',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <div class="dashboard-container">
-      <h2>Mi Estado en SIMPADE</h2>
-      <p>Aquí puedes consultar tu progreso y dejar tus comentarios para mejorar la convivencia.</p>
-
-      <div class="status-section">
-        <h3>Tu Información (Simulada)</h3>
-        <p><strong>Riesgo Actual:</strong> <span class="risk-badge risk-medium">Medio</span></p>
-        <p><strong>Últimas Ausencias:</strong> 2</p>
-        <p><strong>Promedio General:</strong> 3.7</p>
-      </div>
-
-      <div class="feedback-section">
-        <h3>¿Cómo te sientes? ¡Tu opinión importa!</h3>
-        <form [formGroup]="feedbackForm" (ngSubmit)="sendFeedback()">
-          <div class="form-group">
-            <label>¿Cómo te sientes en el colegio?</label>
-            <select formControlName="feeling" class="form-control">
-              <option>Bien</option>
-              <option>Regular</option>
-              <option>Mal</option>
-            </select>
-          </div>
-           <div class="form-group">
-            <label>Categoría</label>
-            <select formControlName="category" class="form-control">
-              <option value="convivencia">Convivencia</option>
-              <option value="academico">Académico</option>
-              <option value="instalaciones">Instalaciones</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>¿Qué te gustaría mejorar?</label>
-            <textarea formControlName="suggestion" rows="4" class="form-control"></textarea>
-          </div>
-          <button type="submit" class="btn-submit" [disabled]="feedbackForm.invalid">Enviar Comentario</button>
-        </form>
-      </div>
-    </div>
-  `
+  templateUrl: './student-dashboard.component.html',
+  styleUrls: ['./student-dashboard.component.css']
 })
-export class StudentDashboardComponent {
+export class StudentDashboardComponent implements OnInit {
+  
+  studentData$: Observable<StudentData | null> | undefined;
   feedbackForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private authService: AuthService) {
+  // 🛑 MEJORA: Controla si se muestra la bienvenida o el estado
+  showWelcomeScreen = true;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private dataService: DataService
+  ) {
     this.feedbackForm = this.fb.group({
       feeling: ['Bien', Validators.required],
-      category: ['convivencia', Validators.required],
+      category: ['Convivencia', Validators.required],
       suggestion: ['', Validators.required]
     });
   }
 
-  sendFeedback(): void {
-    if (this.feedbackForm.invalid) return;
-    this.dataService.addStudentFeedback(this.feedbackForm.value).subscribe(() => {
-      alert('¡Gracias! Hemos recibido tus comentarios.');
-      this.feedbackForm.reset({ feeling: 'Bien', category: 'convivencia' });
+  ngOnInit(): void {
+    // Obtenemos los datos combinados del perfil de autenticación y los detalles del estudiante
+    this.studentData$ = this.authService.currentUserProfile$.pipe(
+      switchMap(profile => {
+        if (!profile || profile.role !== 'estudiante' || !profile.studentId) {
+          return of(null); // Si no es un estudiante con ID, no continuamos
+        }
+        
+        // Buscamos los detalles del estudiante usando el studentId del perfil
+        return this.dataService.getStudentById(profile.studentId).pipe(
+          map(studentDetails => ({
+            profile: profile,
+            details: studentDetails
+          }))
+        );
+      })
+    );
+  }
+
+  // 🛑 MEJORA: Método para cambiar de la bienvenida a la vista de estado
+  proceedToStatusView(): void {
+    this.showWelcomeScreen = false;
+  }
+
+  submitFeedback(): void {
+    if (this.feedbackForm.invalid) {
+      alert('Por favor completa todos los campos del formulario de opinión.');
+      return;
+    }
+
+    // Aquí llamarías al DataService para guardar el feedback
+    this.dataService.addStudentFeedback(this.feedbackForm.value).subscribe({
+      next: () => {
+        alert('¡Gracias por tus comentarios! Tu opinión es muy valiosa.');
+        this.feedbackForm.reset({
+          feeling: 'Bien',
+          category: 'Convivencia',
+          suggestion: ''
+        });
+      },
+      error: (err) => console.error('Error al enviar feedback:', err)
     });
   }
 }
+

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService, UserProfile } from '../../../core/services/auth.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -34,8 +35,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      // Marcar campos como tocados para mostrar errores si es necesario
-      this.loginForm.markAllAsTouched();
+      this.markFormGroupTouched(this.loginForm);
       return;
     }
     this.loading = true;
@@ -43,16 +43,53 @@ export class LoginComponent implements OnInit {
 
     const { email, password } = this.loginForm.value;
 
-    this.authService.login(email!, password!).subscribe({
+    this.authService.login(email, password).subscribe({
       next: () => {
-        // Al iniciar sesión exitosamente, AuthService actualiza el perfil del usuario.
-        // Los guards y la navegación principal se encargarán del resto.
-        this.router.navigate(['/dashboard']);
+        // 🛑 MEJORA: Lógica de redirección basada en el rol
+        this.authService.currentUserProfile$.pipe(take(1)).subscribe(profile => {
+          if (profile) {
+            this.redirectUser(profile);
+          } else {
+            // Fallback en caso de que el perfil no se cargue a tiempo
+            this.router.navigate(['/dashboard']);
+          }
+        });
       },
       error: (err) => {
         this.loading = false;
         this.errorMessage = 'Credenciales inválidas. Por favor, inténtalo de nuevo.';
         console.error('Error de login:', err);
+      }
+    });
+  }
+
+  /**
+   * 🛑 NUEVO: Redirige al usuario a su dashboard correspondiente según su rol.
+   */
+  private redirectUser(profile: UserProfile): void {
+    switch (profile.role) {
+      case 'lider':
+      case 'docente':
+        this.router.navigate(['/dashboard']);
+        break;
+      case 'estudiante':
+        this.router.navigate(['/student-dashboard']);
+        break;
+      default:
+        // Si el rol es 'pendiente' o desconocido, lo enviamos a una página de espera o al login
+        this.errorMessage = 'Tu cuenta está pendiente de activación.';
+        this.authService.logout(); // Cerramos sesión para evitar que quede en un estado inválido
+        this.loading = false;
+        // Opcionalmente, redirigir a una página específica: this.router.navigate(['/pending-activation']);
+        break;
+    }
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
       }
     });
   }
