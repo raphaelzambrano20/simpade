@@ -278,6 +278,38 @@ export class DataService {
             { id: 'mock-101', studentId: '12345', name: 'Ana Gutiérrez (MOCK)', grade: 10, riskFactor: 'Alto', academicAverage: 2.7, economicStatus: 'Vulnerable', absencesLastMonth: 5, ownerId: 'mock-teacher-uid' },
             { id: 'mock-102', studentId: '67890', name: 'Pedro López (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.5, economicStatus: 'Estable', absencesLastMonth: 2, ownerId: 'mock-teacher-uid' },
             { id: 'mock-103', studentId: '54321', name: 'Marta Díaz (MOCK)', grade: 9, riskFactor: 'Bajo', academicAverage: 4.5, economicStatus: 'Estable', absencesLastMonth: 0, ownerId: 'another-teacher-uid' },
+            { id: 'mock-101', studentId: '12345', name: 'Ana Gutiérrez (MOCK)', grade: 10, riskFactor: 'Alto', academicAverage: 2.7, economicStatus: 'Vulnerable', absencesLastMonth: 5, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-102', studentId: '67890', name: 'Pedro López (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.5, economicStatus: 'Estable', absencesLastMonth: 2, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-103', studentId: '11223', name: 'Laura Martínez (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.2, economicStatus: 'Estable', absencesLastMonth: 1, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-104', studentId: '33445', name: 'Carlos Ramírez (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.4, economicStatus: 'Vulnerable', absencesLastMonth: 6, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-105', studentId: '55667', name: 'Sofía Herrera (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.1, economicStatus: 'Estable', absencesLastMonth: 3, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-106', studentId: '77889', name: 'Julián Pérez (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.5, economicStatus: 'Estable', absencesLastMonth: 0, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-107', studentId: '99001', name: 'Daniela Torres (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.6, economicStatus: 'Vulnerable', absencesLastMonth: 7, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-108', studentId: '22334', name: 'Andrés Gómez (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.3, economicStatus: 'Estable', absencesLastMonth: 2, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-109', studentId: '44556', name: 'Camila Díaz (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.0, economicStatus: 'Estable', absencesLastMonth: 1, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-110', studentId: '66778', name: 'Mateo Castro (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.3, economicStatus: 'Vulnerable', absencesLastMonth: 8, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-111', studentId: '88990', name: 'Valentina Rojas (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.4, economicStatus: 'Estable', absencesLastMonth: 3, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-112', studentId: '99012', name: 'Sebastián Cárdenas (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.3, economicStatus: 'Estable', absencesLastMonth: 1, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-113', studentId: '10113', name: 'Mariana Suárez (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.5, economicStatus: 'Vulnerable', absencesLastMonth: 6, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-114', studentId: '20224', name: 'Felipe Vargas (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.2, economicStatus: 'Estable', absencesLastMonth: 2, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-115', studentId: '30335', name: 'Isabella León (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.6, economicStatus: 'Estable', absencesLastMonth: 0, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-116', studentId: '40446', name: 'Tomás Herrera (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.8, economicStatus: 'Vulnerable', absencesLastMonth: 5, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-117', studentId: '50557', name: 'Natalia Ruiz (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.6, economicStatus: 'Estable', absencesLastMonth: 2, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-118', studentId: '60668', name: 'David Jiménez (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.4, economicStatus: 'Estable', absencesLastMonth: 1, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-119', studentId: '70779', name: 'Lucía Méndez (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.2, economicStatus: 'Vulnerable', absencesLastMonth: 9, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-120', studentId: '80880', name: 'Samuel Ortiz (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.0, economicStatus: 'Estable', absencesLastMonth: 4, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-121', studentId: '90991', name: 'Paula Castaño (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.1, economicStatus: 'Estable', absencesLastMonth: 1, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-122', studentId: '11114', name: 'Juan Esteban Gil (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.9, economicStatus: 'Vulnerable', absencesLastMonth: 7, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-123', studentId: '12125', name: 'Emily Rodríguez (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.3, economicStatus: 'Estable', absencesLastMonth: 3, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-124', studentId: '13136', name: 'Gabriel Salazar (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.7, economicStatus: 'Estable', absencesLastMonth: 0, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-125', studentId: '14147', name: 'Sara Molina (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.1, economicStatus: 'Vulnerable', absencesLastMonth: 10, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-126', studentId: '15158', name: 'Miguel Ángel Ruiz (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.7, economicStatus: 'Estable', absencesLastMonth: 2, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-127', studentId: '16169', name: 'Adriana Páez (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.5, economicStatus: 'Estable', absencesLastMonth: 1, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-128', studentId: '17170', name: 'Diego Torres (MOCK)', grade: 9, riskFactor: 'Alto', academicAverage: 2.5, economicStatus: 'Vulnerable', absencesLastMonth: 8, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-129', studentId: '18181', name: 'Camila Pineda (MOCK)', grade: 10, riskFactor: 'Medio', academicAverage: 3.2, economicStatus: 'Estable', absencesLastMonth: 3, ownerId: 'mock-teacher-uid' },
+            { id: 'mock-130', studentId: '19192', name: 'Nicolás Peña (MOCK)', grade: 11, riskFactor: 'Bajo', academicAverage: 4.6, economicStatus: 'Estable', absencesLastMonth: 0, ownerId: 'mock-teacher-uid' }
+
+
         ];
     }
     
